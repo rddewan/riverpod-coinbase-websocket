@@ -4,7 +4,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:coinbase/api/coinbase_websocket.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+final coinbaseStatusRepositoryProvider = AutoDisposeStreamProvider<Map<String, dynamic>>((ref) {
+  final coinbaseWebsocket = ref.watch(coinbaseWebsocketProvider);
+  final coinbaseStatusRepository = CoinbaseStatusRepository(coinbaseWebsocket);
+
+  return coinbaseStatusRepository.stream;
+});
 
 class CoinbaseStatusRepository {
   final CoinbaseWebsocket _coinbaseWebsocket;
@@ -16,7 +24,8 @@ class CoinbaseStatusRepository {
   WebSocketChannel? _channel;
   bool _isDisposed = false;
   bool _isSubscribed = false;
-  final StreamController _streamController = StreamController<Map<String, dynamic>>();
+  final StreamController<Map<String, dynamic>> _streamController = StreamController<Map<String, dynamic>>();
+  Stream<Map<String, dynamic>> get stream => _streamController.stream;
 
   void _init() {
     _channel = _coinbaseWebsocket.connect();
