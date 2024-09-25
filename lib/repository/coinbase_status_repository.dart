@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:coinbase/api/coinbase_websocket.dart';
@@ -15,10 +16,12 @@ class CoinbaseStatusRepository {
   WebSocketChannel? _channel;
   bool _isDisposed = false;
   bool _isSubscribed = false;
+  final StreamController _streamController = StreamController<Map<String, dynamic>>();
 
   void _init() {
     _channel = _coinbaseWebsocket.connect();
      _subscribeToStatus();
+     _listen();
   }
 
   void _subscribeToStatus() {
@@ -36,5 +39,23 @@ class CoinbaseStatusRepository {
     // Send subscription message to websocket
     _channel?.sink.add(message);
 
+  }
+
+  void _listen() {
+    if (_isDisposed) return;
+
+    _channel?.stream.listen((data) {
+      final jsonData = jsonDecode(data) as Map<String, dynamic>;
+      _streamController.add(jsonData);      
+
+    }, 
+    onDone: () {
+      
+    },
+    onError: () {
+      
+    },
+    cancelOnError: true,
+    );
   }
 }
