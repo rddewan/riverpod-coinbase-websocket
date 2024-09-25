@@ -1,0 +1,38 @@
+name: coinbase
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # https://pub.dev/packages/flutter_riverpod
+  flutter_riverpod: ^2.5.1
+  # https://pub.dev/packages/freezed_annotation
+  freezed_annotation: ^2.4.4
+  # https://pub.dev/packages/json_annotation
+  json_annotation: ^4.9.0
+  # https://pub.dev/packages/riverpod_annotation
+  riverpod_annotation: ^2.3.5
+  # https://pub.dev/packages/web_socket_channel
+  web_socket_channel: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # https://pub.dev/packages/build_runner
+  build_runner: ^2.4.12
+  # https://pub.dev/packages/json_serializable
+  freezed: ^2.5.7
+  # https://pub.dev/packages/json_serializable
+  json_serializable: ^6.8.0
+  # https://pub.dev/packages/riverpod_generator
+  riverpod_generator: ^2.4.3
+
+
+flutter:
+  uses-material-design: true
