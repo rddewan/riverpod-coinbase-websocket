@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:coinbase/api/coinbase_websocket.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -54,15 +55,9 @@ class CoinbaseStatusRepository {
     if (_isDisposed) return;
 
     _channel?.stream.listen((data) {
-      final jsonData = jsonDecode(data) as Map<String, dynamic>;
+      final jsonData = jsonDecode(data) as Map<String, dynamic>;      
       _streamController.add(jsonData);      
 
-    }, 
-    onDone: () {
-      
-    },
-    onError: () {
-      
     },
     cancelOnError: true,
     );

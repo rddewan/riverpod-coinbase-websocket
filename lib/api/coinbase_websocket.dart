@@ -25,7 +25,7 @@ final coinbaseWebsocketProvider = Provider.autoDispose<CoinbaseWebsocket>((ref) 
 });
 
 class CoinbaseWebsocket {
-  final url = 'wss://ws-feed-public.sandbox.exchange.coinbase.com ';
+  final url = 'wss://ws-feed-public.sandbox.exchange.coinbase.com';
 
   CoinbaseWebsocket() {
     debugPrint('CoinbaseWebsocket initialized');
