@@ -1,6 +1,6 @@
 
 
-import 'package:coinbase/repository/coinbase_status_repository.dart';
+import 'package:coinbase/view_model/coin_status_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,7 +10,7 @@ class CoinStatusList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint('CoinStatusList build');
-    final asyncValue = ref.watch(coinbaseStatusRepositoryProvider);
+    final asyncValue = ref.watch(coinStatusViewModelProvider.select((state) => state.data));
 
     return asyncValue.when(
       data: (data) {
