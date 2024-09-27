@@ -14,4 +14,8 @@ class CoinStatusViewModel extends AutoDisposeNotifier<CoinStatusState> {
     return CoinStatusState(data: data);
   }
 
+  void reset() {
+    ref.invalidate(coinbaseStatusRepositoryProvider);
+  }
+
 }
