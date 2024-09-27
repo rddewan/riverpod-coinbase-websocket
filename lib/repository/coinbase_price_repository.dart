@@ -1,70 +1,65 @@
+
+
+
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:coinbase/api/coinbase_websocket.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final coinbaseStatusRepositoryProvider =
-    AutoDisposeStreamProvider<Map<String, dynamic>>((ref) {
+part 'coinbase_price_repository.g.dart';
 
+@riverpod 
+Stream coinbasePriceRepository(CoinbasePriceRepositoryRef ref, List<String> productIds) {
   final coinbaseWebsocket = ref.watch(coinbaseWebsocketProvider);
-  final coinbaseStatusRepository = CoinbaseStatusRepository(coinbaseWebsocket);
+
+  final coinbasePriceRepository = CoinbasePriceRepository(coinbaseWebsocket, productIds);
 
   ref.onDispose(() {
-    coinbaseStatusRepository._unSubscribeToStatus();
-    coinbaseStatusRepository.dispose();
+    coinbasePriceRepository._unSubscribeToPrice();
+    coinbasePriceRepository.dispose();
     ref.invalidate(coinbaseWebsocketProvider);
     
     debugPrint('CoinbaseStatusRepository disposed');
   });
-  ref.onCancel(() {
-    debugPrint('CoinbaseStatusRepository cancelled');
-  });
-  ref.onResume(() {
-    debugPrint('CoinbaseStatusRepository resumed');
-  });
-  ref.onAddListener(() {
-    debugPrint('CoinbaseStatusRepository added');
-  });
-  ref.onRemoveListener(() {
-    debugPrint('CoinbaseStatusRepository removed');
-  });
+
+  return coinbasePriceRepository.stream;
   
+}
 
-  return coinbaseStatusRepository.stream;
-});
 
-class CoinbaseStatusRepository {
+class CoinbasePriceRepository {
   final CoinbaseWebsocket _coinbaseWebsocket;
+  final List<String> _productIds;
 
-  CoinbaseStatusRepository(this._coinbaseWebsocket) {
+  CoinbasePriceRepository(this._coinbaseWebsocket, this._productIds) {
     _init();
   }
 
   WebSocketChannel? _channel;
   bool _isDisposed = false;
   bool _isSubscribed = false;
+  
   final StreamController<Map<String, dynamic>> _streamController =
       StreamController<Map<String, dynamic>>();
   Stream<Map<String, dynamic>> get stream => _streamController.stream;
 
   void _init() {
     _channel = _coinbaseWebsocket.connect();
-    _subscribeToStatus();
+    _subscribeToPrice();
     _listen();
   }
 
-  void _subscribeToStatus() {
+  void _subscribeToPrice() {
     // check if we are not already disposed
     if (_isDisposed || _isSubscribed) return;
 
     final message = jsonEncode({
       "type": "subscribe",
-      "channels": [
-        {"name": "status"}
-      ],
+      "product_ids": _productIds,
+      "channels": ["ticker"],
     });
 
     // Subscribe to status
@@ -73,15 +68,13 @@ class CoinbaseStatusRepository {
     _channel?.sink.add(message);
   }
 
-  void _unSubscribeToStatus() {
+  void _unSubscribeToPrice() {
     // check if we are not already disposed
     if (_isDisposed || !_isSubscribed) return;
 
     final message = jsonEncode({
       "type": "unsubscribe",
-      "channels": [
-        {"name": "status"}
-      ],
+      "channels": ["ticker"],
     });
 
     // Subscribe to status
@@ -96,7 +89,6 @@ class CoinbaseStatusRepository {
     _channel?.stream.listen(
       (data) {
         final jsonData = jsonDecode(data) as Map<String, dynamic>;
-        debugPrint('CoinbaseStatusRepository: $jsonData');
         _streamController.add(jsonData);
       },
       onError: (e) {
