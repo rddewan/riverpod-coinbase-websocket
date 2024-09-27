@@ -59,7 +59,7 @@ class CoinbasePriceRepository {
     final message = jsonEncode({
       "type": "subscribe",
       "product_ids": _productIds,
-      "channels": ["ticker"],
+      "channels": ["ticker"]
     });
 
     // Subscribe to status

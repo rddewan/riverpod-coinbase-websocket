@@ -2,8 +2,7 @@ import 'package:coinbase/repository/coinbase_price_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-
-final coinPriceViewModelProvider = AutoDisposeFamilyNotifierProvider<CoinPriceViewModel, AsyncValue ,List<String>>(CoinPriceViewModel.new);
+final coinPriceViewModelProvider = AutoDisposeNotifierProviderFamily<CoinPriceViewModel,AsyncValue,List<String>>(CoinPriceViewModel.new);
 
 
 class CoinPriceViewModel extends AutoDisposeFamilyNotifier<AsyncValue, List<String>> {

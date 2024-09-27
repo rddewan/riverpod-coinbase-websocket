@@ -1,5 +1,6 @@
 
 
+import 'package:coinbase/ui/screen/coin_price_screen.dart';
 import 'package:coinbase/view_model/coin_status_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +24,10 @@ class CoinStatusList extends ConsumerWidget {
             return ListTile(
               title: Text(coin['id'] as String),
               subtitle: Text(coin['status'] as String),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => CoinPriceScreen(productIds: [coin['id'] as String])));
+              },
             );
           },
         );
