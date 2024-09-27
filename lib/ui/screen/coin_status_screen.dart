@@ -3,7 +3,7 @@
 import 'package:coinbase/ui/widget/coin_status_list.dart';
 import 'package:coinbase/ui/widget/refresh_button_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class CoinStatusScreen extends StatefulWidget {
   const CoinStatusScreen({ super.key });
