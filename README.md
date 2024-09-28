@@ -1,3 +1,6 @@
-# coinbase
+# Riverpod - coinbase websocket
 
-A new Flutter project.
+A simple riverpod websocket connection app
+
+# Flutter Course
+* https://mobileacademy.io/courses/
