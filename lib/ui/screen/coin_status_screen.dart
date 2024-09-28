@@ -9,7 +9,7 @@ class CoinStatusScreen extends StatefulWidget {
   const CoinStatusScreen({ super.key });
 
   @override
-  State createState() => _CoinStatusScreenState();
+  State<CoinStatusScreen> createState() => _CoinStatusScreenState();
 }
 
 class _CoinStatusScreenState extends State<CoinStatusScreen> {

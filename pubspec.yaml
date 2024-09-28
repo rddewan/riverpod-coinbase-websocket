@@ -34,6 +34,10 @@ dev_dependencies:
   json_serializable: ^6.8.0
   # https://pub.dev/packages/riverpod_generator
   riverpod_generator: ^2.4.3
+  # https://pub.dev/packages/custom_lint
+  custom_lint: ^0.6.7
+  # https://pub.dev/packages/riverpod_lint
+  riverpod_lint: ^2.3.13
 
 
 flutter:

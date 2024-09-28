@@ -12,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'coinbase_price_repository.g.dart';
 
 @riverpod 
-Stream coinbasePriceRepository(CoinbasePriceRepositoryRef ref, List<String> productIds) {
+Stream coinbasePriceRepository(CoinbasePriceRepositoryRef ref, List<String> productIds) {  
   final coinbaseWebsocket = ref.watch(coinbaseWebsocketProvider);
 
   final coinbasePriceRepository = CoinbasePriceRepository(coinbaseWebsocket, productIds);
